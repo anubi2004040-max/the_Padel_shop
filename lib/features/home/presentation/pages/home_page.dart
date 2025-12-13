@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_application_1/core/providers/product_provider.dart';
 import 'package:flutter_application_1/core/providers/auth_provider.dart';
-import '../widgets/user_profile_widget.dart';
 import '../widgets/product_card.dart';
 
 /// Home screen displaying user profile and product listing.
@@ -40,7 +39,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               child: SafeArea(
                 bottom: false,
-                child: ref.watch(userProvider).when(
+                child: ref.watch(currentUserProvider).when(
                   data: (userData) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -454,125 +453,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // User profile card
-            const UserProfileWidget(),
-
-            // Keep the horizontal category chips for quick filter, but drive from selectedCategoryProvider
-            categories.when(
-              data: (cats) {
-                return Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Categories',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      const SizedBox(height: 8),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            FilterChip(
-                              label: const Text('All'),
-                              selected: _selectedCategory == null,
-                              onSelected: (selected) {
-                                setState((){
-                                  _selectedCategory = null;
-                                  _selectedBrand = null;
-                                });
-                              },
-                            ),
-                            const SizedBox(width: 8),
-                            ...cats.map((category) {
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 8),
-                                child: FilterChip(
-                                  label: Text(category),
-                                  selected: _selectedCategory == category,
-                                  onSelected: (selected) {
-                                    setState((){
-                                      _selectedCategory = selected ? category : null;
-                                      if (!selected) _selectedBrand = null;
-                                    });
-                                  },
-                                ),
-                              );
-                            }),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              loading: () => const SizedBox(
-                height: 60,
-                child: Center(child: CircularProgressIndicator()),
-              ),
-              error: (error, st) => Padding(
-                padding: const EdgeInsets.all(16),
-                child: Text('Error loading categories: $error'),
-              ),
-            ),
-
-            // Products grid
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Builder(builder: (context) {
-                    // Decide which provider to use based on selectedCategory/brand
-                    if (_selectedCategory != null) {
-                      final params = <String, String?>{'category': _selectedCategory!, 'brand': _selectedBrand};
-                      final filtered = ref.watch(productsByCategoryAndBrandProvider(params));
-                      return filtered.when(
-                        data: (filteredProducts) => _buildProductsGrid(filteredProducts, context),
-                        loading: () => const Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 32),
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
-                        error: (e, st) => Center(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 32),
-                            child: Text('Error loading products: $e'),
-                          ),
-                        ),
-                      );
-                    }
-
-                    return products.when(
-                      data: (allProducts) => _buildProductsGrid(allProducts, context),
-                      loading: () => const Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 32),
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                      error: (error, st) => Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 32),
-                          child: Text('Error loading products: $error'),
-                        ),
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ),
-          ],
         ),
       ),
     );

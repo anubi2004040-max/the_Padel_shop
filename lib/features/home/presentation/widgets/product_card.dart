@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_application_1/core/models/product.dart';
-import 'package:flutter_application_1/core/services/cart_service.dart';
 
 /// Enhanced product card with compact information and premium badge
 class ProductCard extends ConsumerWidget {
@@ -17,7 +16,6 @@ class ProductCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final inStock = product.stock > 0;
-    final hasDiscount = false; // Add discount logic when needed
     final isPremium = product.rating >= 4.0; // Premium/featured products
 
     return Card(
@@ -68,25 +66,6 @@ class ProductCard extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (hasDiscount)
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.red[700],
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: const Text(
-                            '20% OFF',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
                       if (!inStock)
                         Container(
                           margin: const EdgeInsets.only(top: 4),
