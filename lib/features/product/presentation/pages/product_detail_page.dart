@@ -130,7 +130,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           child: Stack(
                             children: [
                               Center(
-                                child: Image.network(
+                                child: Image.asset(
                                   images[_selectedImageIndex],
                                   fit: BoxFit.contain,
                                   errorBuilder: (context, error, stackTrace) =>
@@ -193,7 +193,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(5),
-                                  child: Image.network(
+                                  child: Image.asset(
                                     images[index],
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) =>

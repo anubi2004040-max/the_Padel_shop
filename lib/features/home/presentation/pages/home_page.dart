@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_application_1/core/providers/product_provider.dart';
 import 'package:flutter_application_1/core/providers/auth_provider.dart';
-import '../widgets/user_profile_widget.dart';
 import '../widgets/product_card.dart';
 
 /// Home screen displaying user profile and product listing.
@@ -40,7 +39,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               child: SafeArea(
                 bottom: false,
-                child: ref.watch(userProvider).when(
+                child: ref.watch(currentUserProvider).when(
                   data: (userData) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -168,7 +167,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               hintText: 'Search Padel Shop',
               hintStyle: TextStyle(fontSize: 14, color: Colors.grey[600]),
               prefixIcon: const Icon(Icons.search, color: Colors.black54),
-              suffixIcon: const Icon(Icons.camera_alt_outlined, color: Colors.black54),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(vertical: 10),
             ),
@@ -221,26 +219,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Delivery location banner
-              Container(
-                color: const Color(0xFF283593),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: Row(
-                  children: [
-                    const Icon(Icons.location_on_outlined, color: Colors.white, size: 20),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        'Deliver to Customer - New York 10001',
-                        style: TextStyle(color: Colors.grey[300], fontSize: 13),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const Icon(Icons.arrow_drop_down, color: Colors.white, size: 20),
-                  ],
-                ),
-              ),
-
               // Premium delivery banner
               Container(
                 width: double.infinity,
@@ -336,78 +314,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 error: (_, __) => const SizedBox.shrink(),
               ),
 
-              const SizedBox(height: 8),
-
-              // Featured banner
-              Container(
-                height: 180,
-                margin: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.blue[400]!, Colors.purple[400]!],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 20,
-                      top: 0,
-                      bottom: 0,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'New Arrivals',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          const Text(
-                            'Latest Padel Equipment',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Colors.black87,
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                            ),
-                            child: const Text('Shop Now'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      right: 20,
-                      top: 20,
-                      bottom: 20,
-                      child: Icon(
-                        Icons.sports_tennis,
-                        size: 100,
-                        color: Colors.white.withOpacity(0.3),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
               const SizedBox(height: 12),
 
               // Products grid
               Padding(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -456,166 +367,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
       ),
-  // end Scaffold
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            onPressed: () {
-              context.go('/cart');
-            },
-          ),
-          PopupMenuButton<String>(
-            itemBuilder: (context) => [
-              const PopupMenuItem<String>(
-                value: 'profile',
-                child: Text('Profile'),
-              ),
-              const PopupMenuItem<String>(
-                value: 'settings',
-                child: Text('Settings'),
-              ),
-              const PopupMenuDivider(),
-              const PopupMenuItem<String>(
-                value: 'logout',
-                child: Text('Logout'),
-              ),
-            ],
-            onSelected: (value) {
-              if (value == 'profile') {
-                context.push('/profile');
-              } else if (value == 'settings') {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Settings coming soon!')),
-                );
-              } else if (value == 'logout') {
-                _handleLogout(context);
-              }
-            },
-          ),
-        ],
-      ),
-=======
-    );
-  }
->>>>>>> 1fce4de683ccbf48141a68fd2a4369be6f5ecaa5
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // User profile card
-            const UserProfileWidget(),
-
-            // Keep the horizontal category chips for quick filter, but drive from selectedCategoryProvider
-            categories.when(
-              data: (cats) {
-                return Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Categories',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      const SizedBox(height: 8),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            FilterChip(
-                              label: const Text('All'),
-                              selected: _selectedCategory == null,
-                              onSelected: (selected) {
-                                setState((){
-                                  _selectedCategory = null;
-                                  _selectedBrand = null;
-                                });
-                              },
-                            ),
-                            const SizedBox(width: 8),
-                            ...cats.map((category) {
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 8),
-                                child: FilterChip(
-                                  label: Text(category),
-                                  selected: _selectedCategory == category,
-                                  onSelected: (selected) {
-                                    setState((){
-                                      _selectedCategory = selected ? category : null;
-                                      if (!selected) _selectedBrand = null;
-                                    });
-                                  },
-                                ),
-                              );
-                            }),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              loading: () => const SizedBox(
-                height: 60,
-                child: Center(child: CircularProgressIndicator()),
-              ),
-              error: (error, st) => Padding(
-                padding: const EdgeInsets.all(16),
-                child: Text('Error loading categories: $error'),
-              ),
-            ),
-
-            // Products grid
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Builder(builder: (context) {
-                    // Decide which provider to use based on selectedCategory/brand
-                    if (_selectedCategory != null) {
-                      final params = <String, String?>{'category': _selectedCategory!, 'brand': _selectedBrand};
-                      final filtered = ref.watch(productsByCategoryAndBrandProvider(params));
-                      return filtered.when(
-                        data: (filteredProducts) => _buildProductsGrid(filteredProducts, context),
-                        loading: () => const Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 32),
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
-                        error: (e, st) => Center(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 32),
-                            child: Text('Error loading products: $e'),
-                          ),
-                        ),
-                      );
-                    }
-
-                    return products.when(
-                      data: (allProducts) => _buildProductsGrid(allProducts, context),
-                      loading: () => const Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 32),
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                      error: (error, st) => Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 32),
-                          child: Text('Error loading products: $error'),
-                        ),
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -647,9 +398,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.75,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
+        childAspectRatio: 0.55,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
       ),
       itemCount: filteredProducts.length,
       itemBuilder: (context, index) {
