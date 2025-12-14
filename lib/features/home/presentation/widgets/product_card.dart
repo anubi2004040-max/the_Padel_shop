@@ -20,8 +20,8 @@ class ProductCard extends ConsumerWidget {
 
     return Card(
       elevation: 1,
-      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(8),
@@ -44,7 +44,7 @@ class ProductCard extends ConsumerWidget {
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(8),
                     ),
-                    child: Image.network(
+                    child: Image.asset(
                       product.imageUrl,
                       fit: BoxFit.contain,
                       errorBuilder: (context, error, stackTrace) {
@@ -119,18 +119,19 @@ class ProductCard extends ConsumerWidget {
               ],
             ),
             // Product info
-            Flexible(
+            Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     // Brand (if available)
                     if (product.brand != null)
                       Text(
                         product.brand!.toUpperCase(),
                         style: TextStyle(
-                          fontSize: 11,
+                          fontSize: 10,
                           color: Colors.grey[600],
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.5,
@@ -145,12 +146,12 @@ class ProductCard extends ConsumerWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
-                        fontSize: 13,
-                        height: 1.3,
+                        fontSize: 12,
+                        height: 1.2,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 4),
                     // Rating
                     Row(
                       children: [
@@ -161,7 +162,7 @@ class ProductCard extends ConsumerWidget {
                                 : (index < product.rating
                                     ? Icons.star_half
                                     : Icons.star_border),
-                            size: 14,
+                            size: 12,
                             color: Colors.orange[700],
                           );
                         }),
@@ -169,13 +170,13 @@ class ProductCard extends ConsumerWidget {
                         Text(
                           '${product.reviews}',
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 10,
                             color: Colors.blue[700],
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    const Spacer(),
                     // Price section
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -183,14 +184,14 @@ class ProductCard extends ConsumerWidget {
                         const Text(
                           '\$',
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 10,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         Text(
                           product.price.toStringAsFixed(0),
                           style: const TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.w600,
                             height: 1,
                           ),
@@ -198,21 +199,23 @@ class ProductCard extends ConsumerWidget {
                         Text(
                           '.${(product.price % 1 * 100).toStringAsFixed(0).padLeft(2, '0')}',
                           style: const TextStyle(
-                            fontSize: 11,
+                            fontSize: 10,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 2),
                     // Delivery info
                     if (inStock)
                       Text(
                         'FREE delivery Tomorrow',
                         style: TextStyle(
-                          fontSize: 11,
+                          fontSize: 10,
                           color: Colors.grey[700],
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                   ],
                 ),

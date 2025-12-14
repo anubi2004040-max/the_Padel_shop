@@ -167,7 +167,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               hintText: 'Search Padel Shop',
               hintStyle: TextStyle(fontSize: 14, color: Colors.grey[600]),
               prefixIcon: const Icon(Icons.search, color: Colors.black54),
-              suffixIcon: const Icon(Icons.camera_alt_outlined, color: Colors.black54),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(vertical: 10),
             ),
@@ -220,26 +219,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Delivery location banner
-              Container(
-                color: const Color(0xFF283593),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: Row(
-                  children: [
-                    const Icon(Icons.location_on_outlined, color: Colors.white, size: 20),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        'Deliver to Customer - New York 10001',
-                        style: TextStyle(color: Colors.grey[300], fontSize: 13),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const Icon(Icons.arrow_drop_down, color: Colors.white, size: 20),
-                  ],
-                ),
-              ),
-
               // Premium delivery banner
               Container(
                 width: double.infinity,
@@ -335,78 +314,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 error: (_, __) => const SizedBox.shrink(),
               ),
 
-              const SizedBox(height: 8),
-
-              // Featured banner
-              Container(
-                height: 180,
-                margin: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.blue[400]!, Colors.purple[400]!],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 20,
-                      top: 0,
-                      bottom: 0,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'New Arrivals',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          const Text(
-                            'Latest Padel Equipment',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Colors.black87,
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                            ),
-                            child: const Text('Shop Now'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      right: 20,
-                      top: 20,
-                      bottom: 20,
-                      child: Icon(
-                        Icons.sports_tennis,
-                        size: 100,
-                        color: Colors.white.withOpacity(0.3),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
               const SizedBox(height: 12),
 
               // Products grid
               Padding(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -486,9 +398,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.75,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
+        childAspectRatio: 0.55,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
       ),
       itemCount: filteredProducts.length,
       itemBuilder: (context, index) {
